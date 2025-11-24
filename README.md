@@ -1,90 +1,119 @@
-# Culling Games - Navegação e Mapeamento com ROS 2
+# 🧠 Culling Games - Navegação e Mapeamento com ROS 2 (Versão C++)
 
-> [!NOTE]
-> *A VERSÃO EM C++ ESTÁ NA BRANCH C++*
+> [!IMPORTANT]
+> **ESTA É A VERSÃO EM C++ DA SOLUÇÃO.**
+> A lógica dos algoritmos foi portada para C++ para atender aos requisitos de desempenho e especificações do projeto, mantendo o projeto antigo.
 
-Este repositório contém a atividade ponderada do professor Nicola Sem6/Mod8. Aqui temos a solução de ambos os desafios da ponderada:
+Este repositório contém a solução desenvolvida para a atividade ponderada de Robótica Computacional. O projeto aborda dois desafios clássicos de robótica móvel em labirintos:
 
-* parte 1: tendo acesso ao mapa, você deverá desenvolver um algoritmo para encontrar a rota otimizada até o alvo;
+* **Parte 1:** Com acesso ao mapa, desenvolver um algoritmo para encontrar a rota otimizada até o alvo.
+* **Parte 2:** Mapeamento de um labirinto desconhecido. O robô deve navegar, mapear o ambiente e comprovar que o mapa gerado é suficiente para reproduzir a rota.
 
-* parte 2: envolve o mapeamento do labirinto. O algoritmo desenvolvido deve navegar pelo mapa, mapeando-o no processo. A seguir, deve-se comprovar que o mapa criado é suficiente para reproduzir a rota da parte 1.
+## 🎥 Demonstração
 
-## Demonstração
-
-> **Nota:** O vídeo comprovando e demonstrando a execução, encontra-se anexado junto ao link deste repositório na plataforma **Adalove** e foi enviado diretamente para o professor (Você 🫵 Nicola).
+> **Nota:** O vídeo demonstrativo completo do funcionamento deste projeto, comprovando a execução dos algoritmos, encontra-se anexado junto ao link deste repositório na plataforma **Adalove**.
 
 ---
 
-## Estrutura do Projeto
+## 📂 Estrutura do Projeto
 
-O projeto foi desenvolvido com base no pacote \`cg\` (Culling Games) que estava no repositório do professor. Os principais scripts desenvolvidos foram:
+A solução foi desenvolvida em um novo pacote chamado `cg_solution`. A estrutura do workspace contém:
+
+1.  **`cg`**: Pacote original do simulador (Python) que gerencia o jogo e a interface gráfica.
+2.  **`cg_solution`**: Pacote desenvolvido (C++) contendo os nós de controle e inteligência do robô.
+
+Os principais scripts desenvolvidos (`src/cg_solution/src/`) são:
 
 ### PARTE 1
 
-* **resolver.py (Parte 1):**
-  Implementa o algoritmo de **Busca em Largura (BFS)**. Ele solicita o mapa completo ao servidor e calcula a rota mais curta do robô até o alvo instantaneamente.
-  
-> [!NOTE]
-> **Caminho para a execução resolver.py:**  \`src/cg/cg/resolver.py\`
+* **`resolver.cpp`:** Implementa o algoritmo de **Busca em Largura (BFS)**. Solicita o mapa completo ao serviço, converte para uma matriz C++ e calcula a rota mais curta instantaneamente.
 
 ### PARTE 2
 
-* **resolverpt2.py (Parte 2):**
-  Implementa um algoritmo que permite que o robô explore um labirinto desconhecido mas com algumas informações base que o auxiliam, construindo um mapa interno e validando-o ao final.
-
-* **semalvopt2.py (Parte 2):**
-  Implementa um algoritmo que permite que o robô explore um labirinto desconhecido utilizando apenas sensores de proximidade, construindo um mapa interno e validando-o ao final.
-
-> [!NOTE]
-> **Caminho para a execução resolverpt2.py:**  \`src/cg/cg/resolverpt2.py\
-> **Caminho para a execução semalvopt2.py:**  \`src/cg/cg/semalvopt2.py\
-  
-
-* **setup.py:**
-  Arquivo de configuração do pacote ROS 2, modificado para registrar os executáveis dos scripts acima. Só copiar e colar no local do arquivo antigo, ou adicioonar as novas linhas de código no arquivo já existente.
-
-> `'resolver = cg.resolver:main',
-  'resolverpt2 = cg.resolverpt2:main',
-  'semalvopt2 = cg.semalvopt2:main',
-`
+* **`resolverpt2.cpp` (DFS Guiado):** Implementa a exploração de labirinto desconhecido usando **DFS com Backtracking + Heurística**.
+    * *Diferencial:* Utiliza a geometria conhecida do labirinto (alvo no centro 14,14) para priorizar vizinhos que aproximam o robô do objetivo, otimizando a busca.
+* **`semalvopt2.cpp` (DFS Cego):** Implementa a exploração "cega" usando **DFS Puro**.
+    * *Diferencial:* Funciona em qualquer cenário, sem pressupor a posição do alvo, garantindo varredura completa se necessário.
 
 ---
 
-### Pré-requisitos: ROS 2 (Jazzy) e Python 3 instalados em ambiente Linux/WSL.
+## 🛠️ Instalação e Compilação
 
+Pré-requisitos: **ROS 2 (Jazzy ou Humble)**, compiladores C++ e Python 3 instalados em ambiente Linux/WSL.
 
-## Como Rodar
+1.  **Pegue o repositório:**
+    ```bash
+    Baixe as files ncessárias do repositório para dentro da sua maquina e entre no local correto
+    ```
 
-### Parte 1: Navegação com Mapa Conhecido
+2.  **Compile os pacotes:**
+    É necessário compilar tanto o jogo (`cg`) quanto a solução (`cg_solution`). Na raiz do workspace, execute:
+    ```bash
+    colcon build
+    ```
 
-1. **Terminal 1 (Simulador):**
-   Inicie o jogo.
-   \`\`\`
-   ros2 run cg maze
-   \`\`\`
+3.  **Configure o ambiente:**
+    Sempre que abrir um novo terminal, execute:
+    ```bash
+    source install/setup.bash
+    ```
 
-2. **Terminal 2 (Solução):**
-   Execute o script de resolução. Ele solicitará um novo mapa aleatório automaticamente.
-   \`\`\`
-   ros2 run cg resolver
-   \`\`\`
+---
+
+## 🚀 Como Rodar
+
+Para executar as soluções, você precisará de **dois terminais**. Certifique-se de rodar o comando `source install/setup.bash` em ambos.
+
+### Parte 1: Navegação com Mapa Conhecido (BFS)
+
+1.  **Terminal 1 (Simulador):**
+    Inicie o ambiente do jogo.
+    ```bash
+    ros2 run cg maze
+    ```
+
+2.  **Terminal 2 (Solução C++):**
+    Execute o nó que resolve o labirinto via BFS.
+    ```bash
+    ros2 run cg_solution resolver
+    ```
+
+### Parte 2: Mapeamento + Navegação (DFS)
+
+1.  **Terminal 1 (Simulador):**
+    Inicie o jogo (sem argumentos para permitir reset de mapas variados).
+    ```bash
+    ros2 run cg maze
+    ```
+
+2.  **Terminal 2 (Solução C++):**
+    Execute o nó de exploração.
+
+    * **Opção A (Recomendada - Guiada):**
+        ```bash
+        ros2 run cg_solution resolverpt2
+        ```
+
+    * **Opção B (Busca Cega):**
+        ```bash
+        ros2 run cg_solution semalvopt2
+        ```
+
+> **O que esperar:** O robô explorará o labirinto autonomamente. Ao encontrar o alvo, o terminal exibirá: `ALVO ENCONTRADO! Validando...`, seguido de `SUCESSO! Mapa válido`, confirmando que o mapa gerado na memória do processo C++ permite traçar uma rota segura.
 
 ---
 
-### Parte 2: Mapeamento + Navegação
+## 🧠 Lógica dos Algoritmos
 
-1. **Terminal 1 (Simulador):**
-   Inicie o jogo.
-   \`\`\`
-   ros2 run cg maze
-   \`\`\`
+### Solução 1: Busca em Largura (BFS)
+* **Estratégia:** Utiliza filas (`std::deque`) para expandir a busca em camadas. Como o grafo não tem pesos (custo de movimento constante), o BFS garante matematicamente o menor caminho.
 
-2. **Terminal 2 (Solução):**
-   Execute o script de exploração.
-   \`\`\`
-   ros2 run cg resolverpt2
-   ou
-   ros2 run cg semalvopt2
-   \`\`\`
+### Solução 2: DFS com Backtracking
+* **Estratégia:**
+    1.  **Sensoriamento:** Lê o tópico `/robot_sensors` e atualiza uma matriz de strings (`std::vector<std::vector<std::string>>`) na memória.
+    2.  **Decisão:** Escolhe um vizinho não visitado. No caso do `resolverpt2`, ordena os vizinhos pela Distância de Manhattan até o centro `(14,14)`.
+    3.  **Backtracking:** Se entrar em um beco sem saída, utiliza uma pilha (`std::vector` usado como Stack) para retornar à última bifurcação.
+    4.  **Prova:** Ao final, executa uma função `bfs_check` interna para validar a topologia descoberta.
 
 ---
+Desenvolvido para a atividade ponderada de Robótica Computacional.
