@@ -1,4 +1,4 @@
-# 🧠 Culling Games - Navegação e Mapeamento com ROS 2 (Versão C++)
+# Culling Games - Navegação e Mapeamento com ROS 2 (Versão C++)
 
 > [!IMPORTANT]
 > **ESTA É A VERSÃO EM C++ DA SOLUÇÃO.**
@@ -9,13 +9,13 @@ Este repositório contém a solução desenvolvida para a atividade ponderada de
 * **Parte 1:** Com acesso ao mapa, desenvolver um algoritmo para encontrar a rota otimizada até o alvo.
 * **Parte 2:** Mapeamento de um labirinto desconhecido. O robô deve navegar, mapear o ambiente e comprovar que o mapa gerado é suficiente para reproduzir a rota.
 
-## 🎥 Demonstração
+## Demonstração
 
 > **Nota:** O vídeo demonstrativo completo do funcionamento deste projeto, comprovando a execução dos algoritmos, encontra-se anexado junto ao link deste repositório na plataforma **Adalove**.
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 A solução foi desenvolvida em um novo pacote chamado `cg_solution`. A estrutura do workspace contém:
 
@@ -37,7 +37,7 @@ Os principais scripts desenvolvidos (`src/cg_solution/src/`) são:
 
 ---
 
-## 🛠️ Instalação e Compilação
+## Instalação e Compilação
 
 Pré-requisitos: **ROS 2 (Jazzy ou Humble)**, compiladores C++ e Python 3 instalados em ambiente Linux/WSL.
 
@@ -60,7 +60,7 @@ Pré-requisitos: **ROS 2 (Jazzy ou Humble)**, compiladores C++ e Python 3 instal
 
 ---
 
-## 🚀 Como Rodar
+## Como Rodar
 
 Para executar as soluções, você precisará de **dois terminais**. Certifique-se de rodar o comando `source install/setup.bash` em ambos.
 
@@ -103,14 +103,7 @@ Para executar as soluções, você precisará de **dois terminais**. Certifique-
 
 ---
 
-## 🧠 Lógica dos Algoritmos
 
-### Solução 1: Busca em Largura (BFS)
-* **Estratégia:** Utiliza filas (`std::deque`) para expandir a busca em camadas. Como o grafo não tem pesos (custo de movimento constante), o BFS garante matematicamente o menor caminho.
-
-### Solução 2: DFS com Backtracking
-* **Estratégia:**
-    1.  **Sensoriamento:** Lê o tópico `/robot_sensors` e atualiza uma matriz de strings (`std::vector<std::vector<std::string>>`) na memória.
     2.  **Decisão:** Escolhe um vizinho não visitado. No caso do `resolverpt2`, ordena os vizinhos pela Distância de Manhattan até o centro `(14,14)`.
     3.  **Backtracking:** Se entrar em um beco sem saída, utiliza uma pilha (`std::vector` usado como Stack) para retornar à última bifurcação.
     4.  **Prova:** Ao final, executa uma função `bfs_check` interna para validar a topologia descoberta.
