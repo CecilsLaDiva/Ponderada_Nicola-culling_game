@@ -100,13 +100,3 @@ Para executar as soluções, você precisará de **dois terminais**. Certifique-
         ```
 
 > **O que esperar:** O robô explorará o labirinto autonomamente. Ao encontrar o alvo, o terminal exibirá: `ALVO ENCONTRADO! Validando...`, seguido de `SUCESSO! Mapa válido`, confirmando que o mapa gerado na memória do processo C++ permite traçar uma rota segura.
-
----
-
-
-    2.  **Decisão:** Escolhe um vizinho não visitado. No caso do `resolverpt2`, ordena os vizinhos pela Distância de Manhattan até o centro `(14,14)`.
-    3.  **Backtracking:** Se entrar em um beco sem saída, utiliza uma pilha (`std::vector` usado como Stack) para retornar à última bifurcação.
-    4.  **Prova:** Ao final, executa uma função `bfs_check` interna para validar a topologia descoberta.
-
----
-Desenvolvido para a atividade ponderada de Robótica Computacional.
