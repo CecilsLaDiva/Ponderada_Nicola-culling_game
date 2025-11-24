@@ -1,5 +1,8 @@
 # Culling Games - Navegação e Mapeamento com ROS 2
 
+> [!NOTE]
+> *A VERSÃO EM C++ ESTÁ NA BRANCH C++*
+
 Este repositório contém a atividade ponderada do professor Nicola Sem6/Mod8. Aqui temos a solução de ambos os desafios da ponderada:
 
 * parte 1: tendo acesso ao mapa, você deverá desenvolver um algoritmo para encontrar a rota otimizada até o alvo;
