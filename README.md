@@ -11,7 +11,7 @@ Este repositório contém a solução desenvolvida para a atividade ponderada de
 
 ## Demonstração
 
-> **Nota:** O vídeo demonstrativo completo do funcionamento deste projeto, comprovando a execução dos algoritmos, encontra-se anexado junto ao link deste repositório na plataforma **Adalove**.
+> **Nota:** O vídeo demonstrativo está nesse link do drive:  https://drive.google.com/drive/folders/1qXBo6y1axeFlfsTIylhwHAAoTVvI8LiR?usp=sharing  (peça permissão)
 
 ---
 
